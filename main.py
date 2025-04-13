@@ -5,8 +5,14 @@ from typing import List
 import uuid
 import json
 import os
+from passlib.context import CryptContext
 
 app = FastAPI()
+
+# -------------------------
+# Seguridad con bcrypt
+# -------------------------
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # -------------------------
 # Estructura de datos
@@ -58,6 +64,11 @@ cargar_usuarios()
 def registrar(pareja: Pareja):
     if pareja.email in usuarios:
         raise HTTPException(status_code=400, detail="Ya existe")
+    
+    # Hashear la contraseña
+    hashed_password = pwd_context.hash(pareja.password)
+    pareja.password = hashed_password
+
     usuarios[pareja.email] = pareja
     guardar_usuarios()
     return {"mensaje": "ok"}
@@ -67,7 +78,9 @@ def loguearse(datos: OAuth2PasswordRequestForm = Depends()):
     p = usuarios.get(datos.username)
     if not p:
         raise HTTPException(status_code=401, detail="Usuario no encontrado")
-    if p.password != datos.password:
+    
+    # Verificar contraseña con hash
+    if not pwd_context.verify(datos.password, p.password):
         raise HTTPException(status_code=403, detail="Contraseña incorrecta")
     
     tkn = str(uuid.uuid4())
@@ -85,7 +98,6 @@ def guardar_intereses(body: dict, pareja_actual = Depends(get_user)):
     if "tags" not in body:
         raise HTTPException(status_code=400, detail="Faltan tags")
     
-    # Fusionar intereses sin duplicados
     nuevos = set(body["tags"])
     existentes = set(pareja_actual.interests)
     pareja_actual.interests = list(nuevos | existentes)
