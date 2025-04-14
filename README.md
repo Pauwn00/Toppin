@@ -91,6 +91,14 @@ Los usuarios registrados y sus intereses se guardan en un archivo `usuarios.json
 
 3. Usa ese token para añadir más intereses o ver matches compatibles.
 
+4. Si queremos añadir un interes mas tarde lo redactariamos de esta manera:
+
+      ```json
+   {
+     "tags":["motos","cine"]
+   }
+   ```
+
 ---
 
 ## Mejoras posibles
