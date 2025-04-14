@@ -58,7 +58,12 @@
 | POST   | `/signup`    | Registro de pareja                         |
 | POST   | `/login`     | Autenticación con email y password         |
 | POST   | `/interests` | Añadir intereses (requiere token)          |
+| POST    | `/like/{email}`   | Dar like a una pareja (requiere token)   |
+| GET    | `/likes`   | Ver los likes dados (requiere token)   |
 | GET    | `/matches`   | Ver parejas compatibles (requiere token)   |
+| GET    | `/mutual-matches`   | Ver parejas que os habeis dado like entre vosotros (requiere token)   |
+
+
 
 > Todos los endpoints protegidos usan token tipo Bearer (devolverá `/login`).
 
