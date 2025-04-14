@@ -87,7 +87,7 @@ Los usuarios registrados y sus intereses se guardan en un archivo `usuarios.json
    }
    ```
 
-2. Inicia sesión y copia el `access_token` devuelto.
+2. Inicia sesión en login, username sera nuestro correo y despues nos dirigiremos a Authorize y haremos lo mismo.
 
 3. Usa ese token para añadir más intereses o ver matches compatibles.
 
