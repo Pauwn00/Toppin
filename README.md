@@ -7,10 +7,12 @@
 
 ## Tecnologías
 
-- [FastAPI](https://fastapi.tiangolo.com/)
-- Python 3.10+
-- JSON como almacenamiento persistente (simula base de datos)
-- Uvicorn como servidor ASGI
+- **[FastAPI](https://fastapi.tiangolo.com/)** – Framework web moderno para crear APIs en Python de forma rápida y con documentación automática.
+- **[SQLite](https://www.sqlite.org/index.html)** – Base de datos ligera, integrada como archivo `.db`, ideal para proyectos pequeños o pruebas.
+- **[SQLAlchemy](https://www.sqlalchemy.org/)** – ORM de Python para interactuar con bases de datos de forma estructurada usando clases.
+- **[Pydantic](https://docs.pydantic.dev/)** – Validación de datos automática y tipada en Python.
+- **[Uvicorn](https://www.uvicorn.org/)** – Servidor ASGI ultrarápido para correr FastAPI.
+- **[Passlib (bcrypt)](https://passlib.readthedocs.io/)** – Encriptación segura de contraseñas.
 
 ---
 
