@@ -103,7 +103,6 @@ Los usuarios registrados y sus intereses se guardan en un archivo `usuarios.json
 
 ## Mejoras posibles
 
-- Base de datos real (SQLite o PostgreSQL)
 - Tests automáticos
 - Dockerización del entorno
 
