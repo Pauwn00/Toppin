@@ -1,16 +1,13 @@
 
-from pydantic import BaseModel
-from typing import List
+from sqlalchemy import Column, String
+from sqlalchemy.types import JSON
+from database import Base
 
-class Pareja(BaseModel):
-    email: str
-    password: str
-    names: List[str]
-    interests: List[str] = []
-    likes: List[str] = []
+class ParejaORM(Base):
+    __tablename__ = "parejas"
 
-class TokenResponse(BaseModel):
-    access_token: str
-    token_type: str
-
-usuarios = {}  # Diccionario global que simula la base de datos
+    email = Column(String, primary_key=True, index=True)
+    password = Column(String, nullable=False)
+    names = Column(JSON, default=[])
+    interests = Column(JSON, default=[])
+    likes = Column(JSON, default=[])
