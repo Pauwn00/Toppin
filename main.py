@@ -7,7 +7,7 @@ import uuid
 
 from database import SessionLocal, engine
 from models import Base, ParejaORM
-from schemas import Pareja, TokenResponse
+from schemas import Pareja, TokenResponse, ParejaRegistro
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
@@ -33,21 +33,22 @@ def get_user_from_token(token: str = Depends(oauth2_scheme), db: Session = Depen
     return user
 
 @app.post("/signup")
-def registrar(pareja: Pareja, db: Session = Depends(get_db)):
+def registrar(pareja: ParejaRegistro, db: Session = Depends(get_db)):
     if db.query(ParejaORM).filter(ParejaORM.email == pareja.email).first():
         raise HTTPException(status_code=400, detail="Ya existe")
-    
+
     hashed_password = pwd_context.hash(pareja.password)
     db_pareja = ParejaORM(
         email=pareja.email,
         password=hashed_password,
         names=pareja.names,
         interests=pareja.interests,
-        likes=[]
+        likes=[]  # 👈 Aquí lo inicializas, aunque no venga del frontend
     )
     db.add(db_pareja)
     db.commit()
     return {"mensaje": "Registro exitoso"}
+
 
 @app.post("/login", response_model=TokenResponse)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
@@ -61,10 +62,10 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 @app.post("/interests")
 def guardar_intereses(body: dict, pareja = Depends(get_user_from_token), db: Session = Depends(get_db)):
-    if "tags" not in body:
-        raise HTTPException(status_code=400, detail="Faltan tags")
+    if "intereses" not in body:
+        raise HTTPException(status_code=400, detail="Faltan intereses")
     
-    nuevos = set(body["tags"])
+    nuevos = set(body["intereses"])
     existentes = set(pareja.interests)
     pareja.interests = list(nuevos | existentes)
     db.commit()
